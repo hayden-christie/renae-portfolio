@@ -229,6 +229,52 @@
             height: auto;
             border-radius: 8px;
             border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .comparison-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .lightbox-close:hover {
+            color: #4a7c59;
         }
 
         .image-caption {
@@ -336,11 +382,35 @@
 
                 <div class="image-showcase">
                     <div class="image-comparison">
-                        <img src="https://raw.githubusercontent.com/hayden-christie/renae-portfolio/refs/heads/main/Old%20Schedule.png" alt="Workflow Before" class="comparison-image">
-                        <img src="https://raw.githubusercontent.com/hayden-christie/renae-portfolio/refs/heads/main/New%20Schedule.png" class="comparison-image">
+                        <img src="https://raw.githubusercontent.com/hayden-christie/renae-portfolio/refs/heads/main/Old%20Schedule.png" alt="Workflow Before" class="comparison-image" onclick="openLightbox(this.src)">
+                        <img src="https://raw.githubusercontent.com/hayden-christie/renae-portfolio/refs/heads/main/New%20Schedule.png" alt="Workflow After" class="comparison-image" onclick="openLightbox(this.src)">
                     </div>
-                    <p class="image-caption">Side-by-side comparison of existing workflow versus redesigned process</p>
+                    <p class="image-caption">Side-by-side comparison of existing workflow versus redesigned process (click to enlarge)</p>
                 </div>
+
+                <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+                    <span class="lightbox-close">&times;</span>
+                    <img id="lightbox-img" src="" alt="Enlarged view">
+                </div>
+
+                <script>
+                    function openLightbox(src) {
+                        document.getElementById('lightbox').classList.add('active');
+                        document.getElementById('lightbox-img').src = src;
+                        document.body.style.overflow = 'hidden';
+                    }
+
+                    function closeLightbox() {
+                        document.getElementById('lightbox').classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            closeLightbox();
+                        }
+                    });
+                </script>
 
                 <h2>Redesigned Workflow Structure</h2>
                 <p>Based on the discovery findings, I designed a new workflow structure with clear phases, handoffs, and accountability:</p>
